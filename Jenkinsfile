@@ -1,6 +1,12 @@
 pipeline {
     agent any
     stages {
+        stage('Build') {
+
+        }
+        stage('Security Scan') {
+            aquaMicroscanner imageName: 'alpine:latest', notCompliesCmd: 'exit 1', onDisallowed: 'fail'
+        }
         stage('Lint HTML') {
             steps {
                 sh 'tidy -q -e *.html'
