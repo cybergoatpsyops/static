@@ -3,13 +3,13 @@ pipeline {
     stages {
         stage('Lint HTML') {
             steps {
-                'tidy -q -e *.html'
+                sh 'tidy -q -e *.html'
             }
         }
         stage('Upload to AWS') {
             steps {
                 withAWS(credentials:'aws-static') {
-                    s3Upload(file:'index.html', bucket:'cybergoat-static')
+                    s3Upload((pathStyleAccessEnabled:true, payloadSigningEnabled:true, file:'index.html', bucket:'cybergoat-static')
                     sh 'echo "Hello World"'
                     sh '''
                         echo "Multiline shell steps works too"
